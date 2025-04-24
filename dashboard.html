@@ -116,20 +116,20 @@
       <div class="layout">
         
         <div class="sidebar">
-          <button class="button-side"> A  building </button>
+          <button class="button-side" data-id-prefix="AL"> A  building </button>
       
-          <button class="button-side"> B  building </button>
+          <button class="button-side" data-id-prefix="BL"> B  building </button>
         
-          <button class="button-side"> C  building </button>
+          <button class="button-side" data-id-prefix="CL"> C  building </button>
         
-          <button class="button-side"> D  building</button>
+          <button class="button-side" data-id-prefix="DL"> D  building</button>
       
       </div>
       <div class="main-panel">
         <input type="text" id="searchBar" placeholder="Search" />
         <div class="class">
-          <button id= "AL001" class="class-button">Classroom 1</button>
-          <button id= "AL002" class="class-button">Classroom 2</button>
+          <button class="class-button">Classroom 1</button>
+          <button class="class-button">Classroom 2</button>
           <button class="class-button">Classroom 3</button>
           <button class="class-button">Classroom 4</button>
           <button class="class-button">Classroom 5</button>
@@ -147,6 +147,7 @@
   
     const classButtons = document.querySelectorAll(".class-button");
     classButtons.forEach(button => {
+
       button.addEventListener("click", () => {
         alert(`You clicked ${button.textContent}`);
         let newstat = prompt("Enter Class Room Status: 1) Occupied, 2) Vacant");
@@ -156,11 +157,17 @@
     });
   
     const sideButtons = document.querySelectorAll(".button-side");
-    sideButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        // side button logic
-      });
+    sideButtons.forEach((sideButtons) => {
+      sideButtons.addEventListener('click', () => {
+    const idPrefix = sideButtons.getAttribute('data-id-prefix');
+    console.log(idPrefix);
+    classButtons.forEach((classButtons, i) => {
+      classButtons.id = `${idPrefix}00${i+1}`;// This method will work only till the time there are 9 classrooms in each Building/Block
+      console.log(classButtons.id)
     });
+  });
+});
+
   </script>
 
 
