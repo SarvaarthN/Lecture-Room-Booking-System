@@ -1,11 +1,7 @@
+
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-  import { 
-    getFirestore, 
-    addDoc,
-    collection,
-    getDocs
-  } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+  import { getDatabase,set,get,ref} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,24 +19,18 @@
   };
 
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const app2 = initializeApp(firebaseConfig);
+  const db2 = getDatabase(app2);
+  console.log(db2);
+  console.log("It is working")
 
-   try{
-    const docRec=  await addDoc(collection(db,"users"),{
-      firstName: "Paarth",
-      lastName: "Shirsat",
-      userId: "pas",
-      password: "password" 
-    })
-    alert("It Worked!!!!!")
-  }catch(error){
-    console.log(err);
-  } 
+  export function changestatus(room,stat){
+    let newstat=""
+        if(stat==1) newstat="vacant"
+        else if(stat==2) newstat="occupied"
+        set(ref(db2, room), {
+            status: newstat
+          });
+    console.log("Updated")
 
-  const quertSnapshot=await getDocs(collection(db,"users"));
-  quertSnapshot.forEach(element=>{
-    console.log(element.data())
-
-  })
-  
+  }

@@ -50,12 +50,18 @@
         <input type="text" placeholder="User ID" id="userId">
         <input type="password" placeholder="Password" id="password">
         <button onclick="submitForm()">Submit</button>
+        <button onclick="opendatabase()">Go to Firebase</button>
     </div>
+
     <script>
         function submitForm() {
             const userId = document.getElementById('userId').value;
             const password = document.getElementById('password').value;
             window.location.href = "Welcome.html" // can't use <a href> because this is js not HTML!
+
+        }
+            function opendatabase() {
+            window.location.href = "dashboard.html" // can't use <a href> because this is js not HTML!
 
         }
     </script>
