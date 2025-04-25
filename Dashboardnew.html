@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Classroom Availability</title>
+    <title>dashboard</title>
     <style>
       body {
         font-family: Arial;
@@ -67,7 +67,6 @@
       }
 
       .sidebar {
-        position: left;
         left: 30px;
         bottom: 10px;
         top: 55px;
@@ -109,51 +108,63 @@
 
     <div class="layout">
       <div class="sidebar">
-        <button class="button-side" onclick="showClassrooms('A')">A Building</button>
-        <button class="button-side" onclick="showClassrooms('B')">B Building</button>
-        <button class="button-side" onclick="showClassrooms('C')">C Building</button>
-        <button class="button-side" onclick="showClassrooms('D')">D Building</button>
+        <button class="button-side" data-id-prefix="AL">A building</button>
+        <button class="button-side" data-id-prefix="BL">B building</button>
+        <button class="button-side" data-id-prefix="CL">C building</button>
+        <button class="button-side" data-id-prefix="DL">D building</button>
       </div>
 
       <div class="main-panel">
         <input type="text" id="searchBar" placeholder="Search" />
-        <div class="class" id="classroom-buttons">
-          <!-- Classroom buttons will be injected here -->
+        <div class="class" id="classroom-container">
+          <!-- Classroom buttons will be generated here -->
         </div>
       </div>
     </div>
 
-    <script>
-      function showClassrooms(building) {
-        const classroomButtons = document.getElementById('classroom-buttons');
-        classroomButtons.innerHTML = ''; // Clear current buttons
+    <script type="module">
+      import { changestatus } from './rdbms.js';
 
-        const prefix = building + 'L';
-        const classrooms = [
-          prefix + '001',
-          prefix + '002',
-          prefix + '003',
-          prefix + '101',
-          prefix + '102',
-          prefix + '103',
-          prefix + '201',
-          prefix + '202',
-          prefix + '203'
+      const classroomContainer = document.getElementById('classroom-container');
+
+      function generateClassrooms(buildingCode) {
+        const roomNumbers = [
+          '001', '002', '003',
+          '101', '102', '103',
+          '201', '202', '203'
         ];
 
-        classrooms.forEach(classroom => {
-          const button = document.createElement('button');
-          button.classList.add('class-button');
-          button.textContent = classroom;
-          button.addEventListener('click', () => {
-            alert(`You clicked ${classroom}`);
+        classroomContainer.innerHTML = ''; 
+
+        roomNumbers.forEach((roomNum) => {
+          const id = `${buildingCode}${roomNum}`;
+          const btn = document.createElement('button');
+          btn.className = 'class-button';
+          btn.id = id;
+          btn.textContent = id;
+
+          btn.addEventListener('click', () => {
+            alert(`You clicked ${btn.textContent}`);
+            let newstat = prompt("Enter Class Room Status: 1) Occupied, 2) Vacant");
+            changestatus(btn.id, newstat);
+            console.log(newstat);
           });
-          classroomButtons.appendChild(button);
+
+          classroomContainer.appendChild(btn);
         });
       }
 
-      // Initially show A Building classrooms
-      showClassrooms('A');
+
+      const sideButtons = document.querySelectorAll('.button-side');
+      sideButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const prefix = btn.getAttribute('data-id-prefix');
+          generateClassrooms(prefix);
+        });
+      });
+
+      // Show default building 
+      generateClassrooms('AL');
     </script>
   </body>
 </html>
