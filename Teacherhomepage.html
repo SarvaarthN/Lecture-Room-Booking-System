@@ -46,7 +46,7 @@
 }
 
 .button {
-  background-color: rgb(177, 30, 30);
+  background-color: #4c7aae;
   color: white;
   border-width: 2px;
   border-color:black;
@@ -57,7 +57,7 @@
 }
 
 .button:hover {
-  background-color: #df283a;
+  background-color: #7bb1ed;
 }
 
   </style>
@@ -82,8 +82,15 @@
 
     <div class="buttons">
       <div class="text">CHECK CLASSROOM AVAILABILITY  STATUS:</div><br>
-      <button class="button">Classroom status</button>
+      <button class="button" onclick="classInNewTab()">Classroom status</button>
     </div>
   </div>
+
+  <script>
+    function classInNewTab() {
+      window.open('dashboard.html','blank');
+    }
+
+  </script>
 </body>
 </html>
