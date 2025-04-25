@@ -26,7 +26,7 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-   try{
+/*    try{
     const docRec=  await addDoc(collection(db,"users"),{
       firstName: "Paarth",
       lastName: "Shirsat",
@@ -36,7 +36,7 @@
     alert("It Worked!!!!!")
   }catch(error){
     console.log(err);
-  } 
+  }  */
 
   const quertSnapshot=await getDocs(collection(db,"users"));
   quertSnapshot.forEach(element=>{

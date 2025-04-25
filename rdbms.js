@@ -34,3 +34,13 @@
     console.log("Updated")
 
   }
+  export function read(room){
+    let newstat=""
+    const userRef=ref(db2,room)
+        get(userRef).then((snapshot)=> {
+            snapshot.forEach((childsnapshot)=>{
+              console.log(childsnapshot.val());
+            }
+          )});
+
+  }

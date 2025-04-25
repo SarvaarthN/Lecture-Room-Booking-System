@@ -87,14 +87,26 @@
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required>
 
-    <button onclick ="loginForm()" type="submit">Login</button>
+    <button id="submitbutton" type="submit">Login</button>
   </form>
 </div>
 
 <script>
-    function loginForm() {
+    document.getElementById("loginRole").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const userId = document.getElementById('userId').value;
+      const password = document.getElementById('password').value;
+      let roleOfUser=document.getElementById('role').value;
+      alert(roleOfUser);
+      if(roleOfUser!="" && userId!="" && password!="")
+        loginForm()
+      //else alert("Please Enter A Value")
+    });
+  function loginForm() {
             const userId = document.getElementById('userId').value;
             const password = document.getElementById('password').value;
+            const roleofuser=document.getElementById('role').value;
+            console.log(roleofuser)
             window.location.href = "Teacherhomepage.html" 
      }
 </script>
