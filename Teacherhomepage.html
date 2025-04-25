@@ -8,7 +8,7 @@
   <title>Teacher Homepage</title>
   <style>
     body {
-  margin: 2px;
+  margin: 12px;
   font-family:arial;
   background-color:white;
 }
@@ -34,6 +34,7 @@
 .main-section {
   background-color: white;
   padding: 40px;
+  
  
 }
 
@@ -43,6 +44,7 @@
   font-weight: bold;
   text-decoration: none;
   font-size: 25px;
+  margin-top: 70px;
 }
 
 .button {
@@ -68,17 +70,17 @@
     <div class="header-content">
     <i class="fas fa-user-circle user-icon"></i>
 
-    <h1>WELCOME MS. </h1>
+    <h1>WELCOME MS. <span id="teacher-name"></span></h1>
   </div>
   </div>
 
   <div class="main-section">
-    <h2>Teacher details:</h2>
-    <p><b>Name :</b></p>
-    <p><b>Designation :</b></p>
-    <p><b>Qualification :</b></p>
-    <p><b>Specialization :</b></p>
-    <p><b>Email:</b></p><br><br>
+    <h2>Teacher details</h2>
+    <p><b>Designation :</b> <span id="teacher-designation"></span></p>
+    <p><b>Qualification :</b> <span id="teacher-qualification"></span></p>
+    <p><b>Specialization :</b> <span id="teacher-specialization"></span></p>
+    <p><b>Email:</b> <span id="teacher-email"></span></p>
+
 
     <div class="buttons">
       <div class="text">CHECK CLASSROOM AVAILABILITY  STATUS:</div><br>
@@ -88,9 +90,35 @@
 
   <script>
     function classInNewTab() {
-      window.open('dashboard.html','blank');
+      window.open('Dashboardnew.html','blank');
     }
-
   </script>
+  <script type="module">
+    import { db, doc, getDoc } from './firestore.js';
+  
+    async function loadTeacherData() {
+      try {
+        const teacherRef = doc(db, 'users', 't5fYH58M2grMM2jQiWbk');
+        const snap = await getDoc(teacherRef);
+  
+        if (snap.exists()) {
+          const data = snap.data();
+          document.getElementById('teacher-name').textContent = data.Name || '';
+          document.getElementById('teacher-designation').textContent = data.Designation || '';
+          document.getElementById('teacher-qualification').textContent = data.Qualification || '';
+          document.getElementById('teacher-specialization').textContent = data.Specialization || '';
+          document.getElementById('teacher-email').textContent = data.Email || '';
+        } else {
+          console.log("Document does not exist.");
+        }
+      } catch (error) {
+        console.error("Error fetching teacher data:", error);
+      }
+    }
+  
+
+    loadTeacherData();
+  </script>
+  
 </body>
 </html>
