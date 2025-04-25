@@ -123,38 +123,73 @@
     </div>
 
     <script type="module">
-      import { changestatus } from './rdbms.js';
-
+      import { changestatus, readstat } from './rdbms.js';
+    
       const classroomContainer = document.getElementById('classroom-container');
-
+    
       function generateClassrooms(buildingCode) {
         const roomNumbers = [
           '001', '002', '003',
           '101', '102', '103',
           '201', '202', '203'
         ];
-
+    
         classroomContainer.innerHTML = ''; 
-
+    
         roomNumbers.forEach((roomNum) => {
           const id = `${buildingCode}${roomNum}`;
           const btn = document.createElement('button');
           btn.className = 'class-button';
           btn.id = id;
           btn.textContent = id;
-
+    
+          // Initially set button color based on the status
+          readstat(id).then((stat) => {
+            if (stat === 'occupied') {
+              btn.style.backgroundColor = "red";
+            } else if (stat === 'vacant') {
+              btn.style.backgroundColor = "green";
+            }
+          }).catch((error) => {
+            console.error('Error fetching status:', error);
+          });
+    
+          // Event listener to change status on button click
           btn.addEventListener('click', () => {
             alert(`You clicked ${btn.textContent}`);
-            let newstat = prompt("Enter Class Room Status: 1) Occupied, 2) Vacant");
+            let newstat = prompt("Enter Class Room Status: 1) Vacant, 2) Occupied");
             changestatus(btn.id, newstat);
-            console.log(newstat);
+    
+            // After changing the status, update the button color
+            if (newstat === 'vacant') {
+              btn.style.backgroundColor = "green";
+            } else if (newstat === 'occupied') {
+              btn.style.backgroundColor = "red";
+            }
           });
-
+    
           classroomContainer.appendChild(btn);
+    
+          // Set up polling to check for status updates every 5 seconds for each button
+          setInterval(() => {
+            updateButtonColor(btn, id); // Update color every 5 seconds
+          }, 5000);
         });
       }
-
-
+    
+      // Function to update button color based on room status
+      function updateButtonColor(btn, id) {
+        readstat(id).then((stat) => {
+          if (stat === 'occupied') {
+            btn.style.backgroundColor = "red";
+          } else if (stat === 'vacant') {
+            btn.style.backgroundColor = "green";
+          }
+        }).catch((error) => {
+          console.error('Error fetching status:', error);
+        });
+      }
+    
       const sideButtons = document.querySelectorAll('.button-side');
       sideButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -162,9 +197,11 @@
           generateClassrooms(prefix);
         });
       });
-
+    
       // Show default building 
       generateClassrooms('AL');
     </script>
+    
   </body>
 </html>
+

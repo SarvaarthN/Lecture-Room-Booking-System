@@ -1,7 +1,7 @@
 
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-  import { getDatabase,set,get,ref} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+  import { getDatabase, ref, child, get, set} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -34,13 +34,18 @@
     console.log("Updated")
 
   }
-  export function read(room){
-    let newstat=""
-    const userRef=ref(db2,room)
-        get(userRef).then((snapshot)=> {
-            snapshot.forEach((childsnapshot)=>{
-              console.log(childsnapshot.val());
-            }
-          )});
-
+  export async function readstat(room) {
+    const dbRef = ref(db2);
+    try {
+      const snapshot = await get(child(dbRef, room));
+      if (snapshot.exists()) {
+        return snapshot.val().status;
+      } else {
+        console.log("No data found at that path.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error reading data:", error);
+      return null;
+    }
   }
