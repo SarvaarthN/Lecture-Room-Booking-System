@@ -91,25 +91,69 @@
   </form>
 </div>
 
-<script>
-    document.getElementById("loginRole").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const userId = document.getElementById('userId').value;
-      const password = document.getElementById('password').value;
-      let roleOfUser=document.getElementById('role').value;
-      alert(roleOfUser);
-      if(roleOfUser!="" && userId!="" && password!="")
-        loginForm()
-      //else alert("Please Enter A Value")
-    });
-  function loginForm() {
-            const userId = document.getElementById('userId').value;
-            const password = document.getElementById('password').value;
-            const roleofuser=document.getElementById('role').value;
-            console.log(roleofuser)
-            window.location.href = "Teacherhomepage.html" 
-     }
+<script type="module">
+  import { db, doc, getDoc } from './firestore.js';
+
+document.getElementById("loginRole").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const userId = document.getElementById('userId').value;
+  const password = document.getElementById('password').value;
+  const role = document.getElementById('role').value;
+
+  if (!role || !userId || !password) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  try {
+    console.log("Attempting to fetch user data...");
+
+    // Reference to the user document in Firestore
+    const userRef = doc(db, "users", userId);
+    const userSnap = await getDoc(userRef);  // Fetch the user document
+
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+      console.log("User found:", userData);
+
+      // Check if the password is correct
+      if (userData.password === password) {
+        // Check if the role matches
+        if (userData.role === role) {
+          console.log("Login successful!");
+
+          if (role === "teacher") {
+            window.location.href = "Teacherhomepage.html";  // Redirect to Teacher's page
+          } else if (role === "student") {
+            alert("Student login successful.");
+            // Add your redirection for students if needed
+          } else {
+            alert("Invalid role selected.");
+          }
+        } else {
+          console.log("Incorrect role.");
+          alert("Incorrect password or role.");
+        }
+      } else {
+        // If the password is wrong
+        console.log("Incorrect password.");
+        alert("Wrong Password.");
+      }
+    } else {
+      console.log("User does not exist.");
+      alert("User does not exist.");
+    }
+  } catch (error) {
+    console.error("Error logging in:", error);
+    alert("Error connecting to database.");
+  }
+});
+
+
+
 </script>
+
 
 </body>
 </html>
