@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
@@ -9,7 +8,6 @@
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -19,7 +17,6 @@
       align-items: center;
       background-color: #f5f5f5;
     }
-
     .login-box {
       background: white;
       padding: 40px;
@@ -28,20 +25,17 @@
       width: 100%;
       max-width: 350px;
     }
-
     h2 {
       text-align: center;
       margin-bottom: 25px;
       color: #333;
     }
-
     label {
       display: block;
       margin-top: 15px;
       font-weight: 600;
       color: #444;
     }
-
     input, select {
       width: 100%;
       padding: 10px;
@@ -50,7 +44,6 @@
       border-radius: 8px;
       font-size: 16px;
     }
-
     button {
       margin-top: 25px;
       width: 100%;
@@ -63,9 +56,15 @@
       cursor: pointer;
       transition: background 0.3s;
     }
-
     button:hover {
       background: #1a53ff;
+    }
+    #error-message {
+      margin-top: 10px;
+      color: red;
+      font-size: 18px;
+      text-align: center;
+      min-height: 18px;
     }
   </style>
 </head>
@@ -88,41 +87,42 @@
     <input type="password" id="password" name="password" required>
 
     <button id="submitbutton" type="submit">Login</button>
+    <div id="error-message"></div> <!-- Message will appear here -->
   </form>
 </div>
 
 <script type="module">
 import { db, collection, query, where, getDocs } from './firestore.js';
 
-document.getElementById("loginRole").addEventListener("submit", async function (e) {
+const loginForm = document.getElementById("loginRole");
+const errorMessage = document.getElementById("error-message");
+
+loginForm.addEventListener("submit", async function (e) {
   e.preventDefault();
+  errorMessage.textContent = ""; 
 
   const userId = document.getElementById('userId').value.trim();
   const password = document.getElementById('password').value;
   const role = document.getElementById('role').value;
 
   if (!role || !userId || !password) {
-    alert("Please fill all fields.");
+    errorMessage.textContent = "Please fill all fields.";
     return;
   }
 
   try {
-    console.log("Querying for userId:", userId);
-
     const usersRef = collection(db, "users");
-    const q = query(usersRef, where("userId", "==", userId));
+    const q = query(usersRef, where("userId", "==", userId)); // Make sure your field is userId
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      console.log("No user found with userId:", userId);
-      alert("User does not exist.");
+      errorMessage.textContent = "User does not exist.";
       return;
     }
 
     let loggedIn = false;
     querySnapshot.forEach(doc => {
       const data = doc.data();
-      console.log("Fetched user data:", data);
 
       if (data.password === password && data.role === role) {
         loggedIn = true;
@@ -135,17 +135,14 @@ document.getElementById("loginRole").addEventListener("submit", async function (
     });
 
     if (!loggedIn) {
-      alert("Incorrect password or role.");
+      errorMessage.textContent = "Incorrect password or role.";
     }
 
-  } catch (err) {
-    console.error("Login error:", err);
-    alert("Something went wrong. Check console for details.");
+  } catch (error) {
+    errorMessage.textContent = "Something went wrong. Try again.";
   }
 });
 </script>
-
-
 
 </body>
 </html>
