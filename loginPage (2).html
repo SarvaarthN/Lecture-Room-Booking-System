@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script type="module" src="firestore.js" defer> </script>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
@@ -92,12 +92,12 @@
 </div>
 
 <script type="module">
-  import { db, doc, getDoc } from './firestore.js';
+import { db, collection, query, where, getDocs } from './firestore.js';
 
-document.getElementById("loginRole").addEventListener("submit", async function(e) {
+document.getElementById("loginRole").addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  const userId = document.getElementById('userId').value;
+  const userId = document.getElementById('userId').value.trim();
   const password = document.getElementById('password').value;
   const role = document.getElementById('role').value;
 
@@ -107,52 +107,44 @@ document.getElementById("loginRole").addEventListener("submit", async function(e
   }
 
   try {
-    console.log("Attempting to fetch user data...");
+    console.log("Querying for userId:", userId);
 
-    // Reference to the user document in Firestore
-    const userRef = doc(db, "users", userId);
-    const userSnap = await getDoc(userRef);  // Fetch the user document
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
 
-    if (userSnap.exists()) {
-      const userData = userSnap.data();
-      console.log("User found:", userData);
-
-      // Check if the password is correct
-      if (userData.password === password) {
-        // Check if the role matches
-        if (userData.role === role) {
-          console.log("Login successful!");
-
-          if (role === "teacher") {
-            window.location.href = "Teacherhomepage.html";  // Redirect to Teacher's page
-          } else if (role === "student") {
-            alert("Student login successful.");
-            // Add your redirection for students if needed
-          } else {
-            alert("Invalid role selected.");
-          }
-        } else {
-          console.log("Incorrect role.");
-          alert("Incorrect password or role.");
-        }
-      } else {
-        // If the password is wrong
-        console.log("Incorrect password.");
-        alert("Wrong Password.");
-      }
-    } else {
-      console.log("User does not exist.");
+    if (querySnapshot.empty) {
+      console.log("No user found with userId:", userId);
       alert("User does not exist.");
+      return;
     }
-  } catch (error) {
-    console.error("Error logging in:", error);
-    alert("Error connecting to database.");
+
+    let loggedIn = false;
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+      console.log("Fetched user data:", data);
+
+      if (data.password === password && data.role === role) {
+        loggedIn = true;
+        if (role === "teacher") {
+          window.location.href = "Teacherhomepage.html";
+        } else {
+          window.location.href = "Studenthomepage.html";
+        }
+      }
+    });
+
+    if (!loggedIn) {
+      alert("Incorrect password or role.");
+    }
+
+  } catch (err) {
+    console.error("Login error:", err);
+    alert("Something went wrong. Check console for details.");
   }
 });
-
-
-
 </script>
+
 
 
 </body>
