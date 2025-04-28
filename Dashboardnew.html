@@ -160,7 +160,7 @@
               alert(`You clicked ${btn.textContent}`);
               
               let newstat = prompt("Enter Class Room Status: 1) Vacant, 2) Occupied");
-                isScheduled(btn.id)
+                //isScheduled(btn.id)
               // Check if user has input a valid value
               if (newstat !== null && newstat !== "") { 
                 // If valid input is given (not null or empty), update status
@@ -182,12 +182,21 @@
       }
     
       // Function to update button color based on room status
+
+    
+      const sideButtons = document.querySelectorAll('.button-side');
+      sideButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const prefix = btn.getAttribute('data-id-prefix');
+          generateClassrooms(prefix);
+        });
+      });
       function updateButtonColor(btn, id) {
         readstat(id).then((stat) => {
-          if (dayOver(id)){
+/*           if (dayOver(id)){
             btn.style.backgroundColor = "purple";
-          } 
-          else if (stat === 'occupied') {
+          }  */
+          if (stat === 'occupied') {
             btn.style.backgroundColor = "red";
           } 
 
@@ -198,15 +207,6 @@
           console.error('Error fetching status:', error);
         });
       }
-    
-      const sideButtons = document.querySelectorAll('.button-side');
-      sideButtons.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const prefix = btn.getAttribute('data-id-prefix');
-          generateClassrooms(prefix);
-        });
-      });
-    
       // Show default building 
       generateClassrooms('AL');
     </script>

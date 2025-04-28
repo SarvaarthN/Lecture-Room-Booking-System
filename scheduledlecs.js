@@ -15,6 +15,10 @@ export async function dayOver(room){
         console.log("Yes Over")
         return true
     }
+    else {
+    return false
+    }
+    
     const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     let curdate=days[day]
     console.log(b[curdate])
