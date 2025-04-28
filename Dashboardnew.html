@@ -58,12 +58,13 @@
         border: none;
         font-size: 18px;
         cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
       }
 
       .class-button:hover {
         background-color: #6592a3;
         transform: scale(1.05);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
       }
 
       .sidebar {
@@ -94,18 +95,79 @@
         margin-bottom: 80px;
         font-family: Arial;
         font-size: 16px;
+        transition: background-color 0.3s, transform 0.3s;
       }
 
       .button-side:hover {
         background-color: rgba(124, 144, 185);
         transform: scale(1.05);
       }
+
+      /* Hover popup style */
+      .hover-popup {
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid gray;
+        padding: 8px;
+        border-radius: 8px;
+        display: none;
+        flex-direction: column;
+        gap: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        z-index: 999;
+        transition: opacity 0.3s ease;
+      }
+
+      .hover-popup button {
+        padding: 5px 10px;
+        font-size: 12px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #4682B4;
+        color: white;
+        transition: background-color 0.2s;
+      }
+
+      .hover-popup button:hover {
+        background-color: #315f7d;
+      }
+
+      /* Specific style for the new status change buttons */
+      .status-change-popup {
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid gray;
+        padding: 15px;
+        border-radius: 8px;
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        z-index: 999;
+        transition: opacity 0.3s ease;
+      }
+
+      .status-change-popup button {
+        font-size: 14px;
+        padding: 10px;
+        background-color: rgb(47, 114, 132);
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .status-change-popup button:hover {
+        background-color: #6592a3;
+      }
     </style>
   </head>
 
   <body>
     <h1>CLASSROOM AVAILABILITY</h1>
-    <script type="module"> import { startDay} from "./isolate.js";      
+    <script type="module"> 
+    import { startDay} from "./isolate.js";      
       window.startDay = startDay;
     </script>
     <div class="layout">
@@ -129,9 +191,18 @@
       import { changestatus, readstat } from './rdbms.js';
       import { updated, dayOver} from "./scheduledlecs.js";
       import { startDay} from "./isolate.js";
-    
+      
+
+      document.getElementById('showTimetableBtn').addEventListener('click', () => {
+        window.location.href = 'timetablemaker.html';
+      });
+
       const classroomContainer = document.getElementById('classroom-container');
     
+      const hoverPopup = document.getElementById('hover-popup');
+      const statusChangePopup = document.getElementById('status-change-popup');
+      let currentHoveredButton = null;
+
       function generateClassrooms(buildingCode) {
         const roomNumbers = [
           '001', '002', '003',
@@ -140,7 +211,6 @@
         ];
     
         classroomContainer.innerHTML = ''; 
-    
         roomNumbers.forEach((roomNum) => {
           const id = `${buildingCode}${roomNum}`;
           const btn = document.createElement('button');
@@ -148,46 +218,59 @@
           btn.id = id;
           btn.textContent = id;
     
-          // Initially set button color based on the status
-          readstat(id).then((stat) => {
+         // Set initial color
+         readstat(id).then((stat) => {
             if (stat === 'occupied') {
               btn.style.backgroundColor = "red";
             } else if (stat === 'vacant') {
               btn.style.backgroundColor = "green";
+            } else if (stat === 'scheduled') {
+              btn.style.backgroundColor = "purple";
             }
           }).catch((error) => {
             console.error('Error fetching status:', error);
           });
-    
-          // Event listener to change status on button click
-          btn.addEventListener('click', () => {
-              alert(`You clicked ${btn.textContent}`);
-              
-              let newstat = prompt("Enter Class Room Status: 1) Vacant, 2) Occupied");
-                //isScheduled(btn.id)
-              // Check if user has input a valid value
-              if (newstat !== null && newstat !== "") { 
-                // If valid input is given (not null or empty), update status
-                changestatus(btn.id, newstat);
-              } else {
-                // Handle case if user cancels or doesn't enter anything
-                alert("No status entered! The room status has not been changed.");
-              }
-            });
 
-    
+          btn.addEventListener('mouseenter', (e) => {
+            currentHoveredButton = btn;
+            hoverPopup.style.display = 'flex';
+            hoverPopup.style.left = (e.pageX + 15) + 'px';
+            hoverPopup.style.top = (e.pageY + 15) + 'px';
+            hoverPopup.style.opacity = 1; // Make it visible immediately
+          });
+
+          btn.addEventListener('mouseleave', () => {
+            if (!hoverPopup.matches(':hover') && !statusChangePopup.matches(':hover')) {
+              hoverPopup.style.opacity = 0; // Fade out the popup
+              setTimeout(() => {
+                hoverPopup.style.display = 'none';
+              }, 300); // Ensure the popup is hidden after fade out
+              currentHoveredButton = null;
+            }
+          });
+
           classroomContainer.appendChild(btn);
-    
-          // Set up polling to check for status updates every 5 seconds for each button
+
           setInterval(() => {
-            updateButtonColor(btn, id); // Update color every 5 seconds
+            updateButtonColor(btn, id);
           }, 1000);
         });
       }
-    
-      // Function to update button color based on room status
 
-    
+      function updateButtonColor(btn, id) {
+        readstat(id).then((stat) => {
+          if (stat === 'occupied') {
+            btn.style.backgroundColor = "red";
+          } else if (stat === 'vacant') {
+            btn.style.backgroundColor = "green";
+          } else if (stat === 'scheduled') {
+            btn.style.backgroundColor = "purple";
+          }
+        }).catch((error) => {
+          console.error('Error fetching status:', error);
+        });
+      }
+
       const sideButtons = document.querySelectorAll('.button-side');
       sideButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -195,26 +278,65 @@
           generateClassrooms(prefix);
         });
       });
-      function updateButtonColor(btn, id) {
-        readstat(id).then((stat) => {
-          if (stat === 'occupied') {
-            btn.style.backgroundColor = "red";
-          } 
 
-          else if (stat === 'vacant') {
-            btn.style.backgroundColor = "green";
-          }
-          else if (stat === 'scheduled') {
-            btn.style.backgroundColor = "purple";
-          }
-        }).catch((error) => {
-          console.error('Error fetching status:', error);
-        });
-      }
-      // Show default building 
-      generateClassrooms('AL');
+      // Hover popup button click
+      document.getElementById('changeStatusBtn').addEventListener('click', () => {
+        if (currentHoveredButton) {
+          statusChangePopup.style.display = 'flex';
+          statusChangePopup.style.left = (event.pageX + 15) + 'px';
+          statusChangePopup.style.top = (event.pageY + 15) + 'px';
+          statusChangePopup.style.opacity = 1; // Make it visible immediately
+        }
+      });
+
+      // Status change buttons
+      document.getElementById('changeToVacant').addEventListener('click', () => {
+        if (currentHoveredButton) {
+          changestatus(currentHoveredButton.id, 1); // Change status to 1 (vacant)
+          
+          // Change the color immediately after status update
+          currentHoveredButton.style.backgroundColor = 'green';
+          
+          // Hide the popup with a smooth fade
+          statusChangePopup.style.opacity = 0;
+          setTimeout(() => {
+            statusChangePopup.style.display = 'none';  // Hide the popup after fading
+          }, 300);
+        }
+      });
+
+      document.getElementById('changeToOccupied').addEventListener('click', () => {
+        if (currentHoveredButton) {
+          changestatus(currentHoveredButton.id, 'occupied');
+          
+          // Change the color immediately after status update
+          currentHoveredButton.style.backgroundColor = 'red';
+          
+          // Hide the popup with a smooth fade
+          statusChangePopup.style.opacity = 0;
+          setTimeout(() => {
+            statusChangePopup.style.display = 'none';  // Hide the popup after fading
+          }, 300);
+        }
+      });
+
+      generateClassrooms('AL'); // Default
+
     </script>
-    
+
+    <!-- Hover Popup -->
+    <div id="hover-popup" class="hover-popup">
+      <button id="changeStatusBtn">Change Classroom Availability</button>
+      <button id="showTimetableBtn">Show Timetable</button>
+    </div>
+
+    <!-- Status Change Popup -->
+    <div id="status-change-popup" class="status-change-popup">
+      <button id="changeToVacant">1- Change to Vacant</button>
+      <button id="changeToOccupied">2- Change to Occupied</button>
+    </div>
+
+    <!-- Classroom Container -->
+    <div id="classroom-container" class="class"></div>
   </body>
 </html>
-
