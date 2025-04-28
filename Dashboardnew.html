@@ -124,7 +124,7 @@
 
     <script type="module">
       import { changestatus, readstat } from './rdbms.js';
-      //import { updated} from "./scheduledlecs.js";
+      import { updated, dayOver} from "./scheduledlecs.js";
     
       const classroomContainer = document.getElementById('classroom-container');
     
@@ -160,7 +160,7 @@
               alert(`You clicked ${btn.textContent}`);
               
               let newstat = prompt("Enter Class Room Status: 1) Vacant, 2) Occupied");
-              
+                isScheduled(btn.id)
               // Check if user has input a valid value
               if (newstat !== null && newstat !== "") { 
                 // If valid input is given (not null or empty), update status
@@ -184,9 +184,14 @@
       // Function to update button color based on room status
       function updateButtonColor(btn, id) {
         readstat(id).then((stat) => {
-          if (stat === 'occupied') {
+          if (dayOver(id)){
+            btn.style.backgroundColor = "purple";
+          } 
+          else if (stat === 'occupied') {
             btn.style.backgroundColor = "red";
-          } else if (stat === 'vacant') {
+          } 
+
+          else if (stat === 'vacant') {
             btn.style.backgroundColor = "green";
           }
         }).catch((error) => {

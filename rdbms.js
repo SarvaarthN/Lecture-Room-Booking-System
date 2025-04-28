@@ -59,7 +59,9 @@
     try {
       const snapshot = await get(child(dbRef, room));
       if (snapshot.exists()) {
+        console.log("I found Data")
         return snapshot.val().timetable;
+
       } else {
         console.log("No data found at that path.");
         return null;
@@ -71,3 +73,38 @@
 
       
   }
+  export function addtimetable(room) {
+    update(ref(db2, room), {
+      timetable: {
+        monday: {
+          "9:30-10:25": "IT SY",
+          "10:30-11:25": "VACANT",
+          "11:30-12:25": "MECH TY"
+        },
+        tuesday: {
+          "9:30-10:25": "VACANT",
+          "10:30-11:25": "EC TY",
+          "11:30-12:25": "COMP SY"
+        },
+        wednesday: {
+          "9:30-10:25": "EE SY",
+          "10:30-11:25": "PROD TY",
+          "11:30-12:25": "VACANT"
+        },
+        thursday: {
+          "9:30-10:25": "VACANT",
+          "10:30-11:25": "EXTC FY",
+          "11:30-12:25": "COMP FY"
+        },
+        friday: {
+          "9:30-10:25": "EC FY",
+          "10:30-11:25": "VACANT",
+          "11:30-12:25": "IT TY"
+        }
+      }
+      
+    });
+  
+    console.log("Status updated");
+  }
+  
