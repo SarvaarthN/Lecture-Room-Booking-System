@@ -124,6 +124,7 @@
 
     <script type="module">
       import { changestatus, readstat } from './rdbms.js';
+      //import { updated} from "./scheduledlecs.js";
     
       const classroomContainer = document.getElementById('classroom-container');
     
@@ -157,15 +158,8 @@
           // Event listener to change status on button click
           btn.addEventListener('click', () => {
             alert(`You clicked ${btn.textContent}`);
-            let newstat = prompt("Enter Class Room Status: 1) Vacant, 2) Occupied");
-            changestatus(btn.id, newstat);
-    
-            // After changing the status, update the button color
-            if (newstat === 'vacant') {
-              btn.style.backgroundColor = "green";
-            } else if (newstat === 'occupied') {
-              btn.style.backgroundColor = "red";
-            }
+            let newstat = prompt("Enter Class Room Status: 1) Vacant, 2) Occupied 3) Show Schedule");
+            changestatus(btn.id, newstat);//We don't need to change the coolour as it will happen within 5 seconds anyways
           });
     
           classroomContainer.appendChild(btn);

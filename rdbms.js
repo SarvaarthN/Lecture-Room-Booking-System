@@ -1,7 +1,7 @@
 
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-  import { getDatabase, ref, child, get, set} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+  import { getDatabase, ref, child, get, set , update} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,16 +24,20 @@
   console.log(db2);
   console.log("It is working")
 
-  export function changestatus(room,stat){
-    let newstat=""
-        if(stat==1) newstat="vacant"
-        else if(stat==2) newstat="occupied"
-        set(ref(db2, room), {
-            status: newstat
-          });
-    console.log("Updated")
 
+
+  export function changestatus(room, stat) {
+    let newstat = "";
+    if (stat == 1) newstat = "vacant";
+    else if (stat == 2) newstat = "occupied";
+  
+    update(ref(db2, room), {
+      status: newstat
+    });
+  
+    console.log("Status updated without overwriting!");
   }
+  
   export async function readstat(room) {
     const dbRef = ref(db2);
     try {
@@ -48,4 +52,22 @@
       console.error("Error reading data:", error);
       return null;
     }
+
+  }
+  export async function readtimetable(){
+    const dbRef = ref(db2);
+    try {
+      const snapshot = await get(child(dbRef, room));
+      if (snapshot.exists()) {
+        return snapshot.val().timetable;
+      } else {
+        console.log("No data found at that path.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error reading data:", error);
+      return null;
+    }
+
+      
   }
