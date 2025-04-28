@@ -8,10 +8,66 @@
   <h1>Adding Timetable</h1>
 
   <script type="module">
-    import { addtimetable } from './rdbms.js';
+      import { addtimetable, readTimetable } from './rdbms.js';
 
-    // Call your function here
-    //addtimetable("AL101");// use it when we need to add timetable
-  </script>
+      const timetableContainer = document.createElement('div');
+      document.body.appendChild(timetableContainer);
+
+      const roomName = "AL101";
+
+      async function showTimetable(room) {
+        timetableContainer.innerHTML = "Loading timetable..";
+
+        const timetableData = await readTimetable(room);
+
+        if (!timetableData) {
+          timetableContainer.innerHTML = "<p>No timetable found!</p>";
+          return;
+        }
+
+        timetableContainer.innerHTML = "";
+
+        const table = document.createElement('table');
+        table.border = "1";
+        table.style.borderCollapse = "collapse";
+        table.style.width = "80%";
+
+        const headerRow = document.createElement('tr');
+        headerRow.innerHTML = "<th>Day</th>";
+
+        const times = ["9:30-10:25", "10:30-11:25", "11:30-12:25"];
+        for (let time of times) {
+          const th = document.createElement('th');
+          th.innerText = time;
+          headerRow.appendChild(th);
+        }
+        table.appendChild(headerRow);
+
+        // --- THE IMPORTANT PART ---
+        const dayOrder = ["monday", "tuesday", "wednesday", "thursday", "friday"];
+
+        for (let day of dayOrder) {
+          if (!timetableData[day]) continue; // Skip if no data for that day
+
+          const row = document.createElement('tr');
+
+          const dayCell = document.createElement('td');
+          dayCell.innerText = day.charAt(0).toUpperCase() + day.slice(1);
+          row.appendChild(dayCell);
+
+          for (let time of times) {
+            const cell = document.createElement('td');
+            cell.innerText = timetableData[day][time] || "VACANT";
+            row.appendChild(cell);
+          }
+          table.appendChild(row);
+        }
+
+        timetableContainer.appendChild(table);
+      }
+
+      showTimetable(roomName);
+
+</script>
 </body>
 </html>
