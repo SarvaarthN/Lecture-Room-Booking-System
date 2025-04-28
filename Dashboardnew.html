@@ -157,10 +157,20 @@
     
           // Event listener to change status on button click
           btn.addEventListener('click', () => {
-            alert(`You clicked ${btn.textContent}`);
-            let newstat = prompt("Enter Class Room Status: 1) Vacant, 2) Occupied 3) Show Schedule");
-            changestatus(btn.id, newstat);//We don't need to change the coolour as it will happen within 5 seconds anyways
-          });
+              alert(`You clicked ${btn.textContent}`);
+              
+              let newstat = prompt("Enter Class Room Status: 1) Vacant, 2) Occupied");
+              
+              // Check if user has input a valid value
+              if (newstat !== null && newstat !== "") { 
+                // If valid input is given (not null or empty), update status
+                changestatus(btn.id, newstat);
+              } else {
+                // Handle case if user cancels or doesn't enter anything
+                alert("No status entered! The room status has not been changed.");
+              }
+            });
+
     
           classroomContainer.appendChild(btn);
     

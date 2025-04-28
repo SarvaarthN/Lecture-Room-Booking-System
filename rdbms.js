@@ -54,7 +54,7 @@
     }
 
   }
-  export async function readtimetable(){
+  export async function readtimetable(room){
     const dbRef = ref(db2);
     try {
       const snapshot = await get(child(dbRef, room));
