@@ -105,13 +105,16 @@
 
   <body>
     <h1>CLASSROOM AVAILABILITY</h1>
-
+    <script type="module"> import { startDay} from "./isolate.js";      
+      window.startDay = startDay;
+    </script>
     <div class="layout">
       <div class="sidebar">
         <button class="button-side" data-id-prefix="AL">A building</button>
         <button class="button-side" data-id-prefix="BL">B building</button>
         <button class="button-side" data-id-prefix="CL">C building</button>
         <button class="button-side" data-id-prefix="DL">D building</button>
+        <button onclick="startDay()">Start Database</button>
       </div>
 
       <div class="main-panel">
@@ -125,6 +128,7 @@
     <script type="module">
       import { changestatus, readstat } from './rdbms.js';
       import { updated, dayOver} from "./scheduledlecs.js";
+      import { startDay} from "./isolate.js";
     
       const classroomContainer = document.getElementById('classroom-container');
     
@@ -177,7 +181,7 @@
           // Set up polling to check for status updates every 5 seconds for each button
           setInterval(() => {
             updateButtonColor(btn, id); // Update color every 5 seconds
-          }, 5000);
+          }, 1000);
         });
       }
     
@@ -193,15 +197,15 @@
       });
       function updateButtonColor(btn, id) {
         readstat(id).then((stat) => {
-/*           if (dayOver(id)){
-            btn.style.backgroundColor = "purple";
-          }  */
           if (stat === 'occupied') {
             btn.style.backgroundColor = "red";
           } 
 
           else if (stat === 'vacant') {
             btn.style.backgroundColor = "green";
+          }
+          else if (stat === 'scheduled') {
+            btn.style.backgroundColor = "purple";
           }
         }).catch((error) => {
           console.error('Error fetching status:', error);

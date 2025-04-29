@@ -30,6 +30,7 @@
     let newstat = "";
     if (stat == 1) newstat = "vacant";
     else if (stat == 2) newstat = "occupied";
+    else if (stat == 3) newstat = "scheduled";
   
     update(ref(db2, room), {
       status: newstat
@@ -54,7 +55,7 @@
     }
 
   }
-  export async function readtimetable(room){
+  export async function readTimetable(room){
     const dbRef = ref(db2);
     try {
       const snapshot = await get(child(dbRef, room));
@@ -77,34 +78,91 @@
     update(ref(db2, room), {
       timetable: {
         monday: {
-          "9:30-10:25": "IT SY",
+          "9:30-10:25": "EXTC SY",
           "10:30-11:25": "VACANT",
-          "11:30-12:25": "MECH TY"
+          "11:30-12:25": "EE TY"
         },
         tuesday: {
           "9:30-10:25": "VACANT",
-          "10:30-11:25": "EC TY",
-          "11:30-12:25": "COMP SY"
+          "10:30-11:25": "COMP SY",
+          "11:30-12:25": "EC TY"
         },
         wednesday: {
-          "9:30-10:25": "EE SY",
-          "10:30-11:25": "PROD TY",
-          "11:30-12:25": "VACANT"
+          "9:30-10:25": "IT FY",
+          "10:30-11:25": "VACANT",
+          "11:30-12:25": "MECH TY"
         },
         thursday: {
-          "9:30-10:25": "VACANT",
-          "10:30-11:25": "EXTC FY",
-          "11:30-12:25": "COMP FY"
+          "9:30-10:25": "PROD FY",
+          "10:30-11:25": "VACANT",
+          "11:30-12:25": "EXTC TY"
         },
         friday: {
-          "9:30-10:25": "EC FY",
+          "9:30-10:25": "COMP FY",
           "10:30-11:25": "VACANT",
-          "11:30-12:25": "IT TY"
+          "11:30-12:25": "EE SY"
         }
       }
+      
       
     });
   
     console.log("Status updated");
   }
+  export async function isScheduled(room){
+    const dbRef = ref(db2);
+    try {
+      const snapshot = await get(child(dbRef, room));
+      if (snapshot.exists()) {
+        if (snapshot.val().status!="occupied" && snapshot.val().status!="vacant")
+        return true;
+      else return false;
+      } 
+      else {
+        console.log("No data found at that path.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error reading data:", error);
+      return null;
+  }
+}
+export async function isVacant(room){
+  const dbRef = ref(db2);
+  try {
+    const snapshot = await get(child(dbRef, room));
+    if (snapshot.exists()) {
+      if (snapshot.val().status=="vacant")
+      return true;
+    else return false;
+    } 
+    else {
+      console.log("No data found at that path.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error reading data:", error);
+    return null;
+}
   
+}
+export async function IsOccupied(room){
+  const dbRef = ref(db2);
+  try {
+    const snapshot = await get(child(dbRef, room));
+    if (snapshot.exists()) {
+      if (snapshot.val().status=="occupied")
+      return true;
+    else return false;
+    } 
+    else {
+      console.log("No data found at that path.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error reading data:", error);
+    return null;
+}
+}
+export async function setCurrentClass(room, name){}
+export async function getCurrentClass(room){}
