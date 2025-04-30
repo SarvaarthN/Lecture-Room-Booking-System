@@ -164,5 +164,27 @@ export async function IsOccupied(room){
     return null;
 }
 }
-export async function setCurrentClass(room, name){}
-export async function getCurrentClass(room){}
+export async function setCurrentClass(room, name){
+  update(ref(db2, room), {
+    currentClass: name
+  });
+
+  console.log("Status updated without overwriting!");
+}
+
+export async function getCurrentClass(room){
+  const dbRef = ref(db2);
+  try {
+    const snapshot = await get(child(dbRef, room));
+    if (snapshot.exists()) {
+      return snapshot.val().currentClass;
+    } 
+    else {
+      console.log("No data found at that path.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error reading data:", error);
+    return null;
+}
+}

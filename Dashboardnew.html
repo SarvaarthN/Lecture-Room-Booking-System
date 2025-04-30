@@ -188,7 +188,7 @@
     </div>
 
     <script type="module">
-      import { changestatus, readstat } from './rdbms.js';
+      import { changestatus, readstat, getCurrentClass } from './rdbms.js';
       import { updated, dayOver} from "./scheduledlecs.js";
       import { startDay} from "./isolate.js";
       
@@ -257,18 +257,23 @@
         });
       }
 
-      function updateButtonColor(btn, id) {
-        readstat(id).then((stat) => {
+      async function updateButtonColor(btn, id) {
+        try {
+          const stat = await readstat(id);
           if (stat === 'occupied') {
             btn.style.backgroundColor = "red";
           } else if (stat === 'vacant') {
             btn.style.backgroundColor = "green";
           } else if (stat === 'scheduled') {
             btn.style.backgroundColor = "purple";
+            
+            
           }
-        }).catch((error) => {
+          let status=await getCurrentClass(id)
+          btn.innerHTML  = id + "<br><br>" + status
+        } catch (error) {
           console.error('Error fetching status:', error);
-        });
+        }
       }
 
       const sideButtons = document.querySelectorAll('.button-side');
