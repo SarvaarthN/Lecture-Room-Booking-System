@@ -12,11 +12,16 @@
         background-size: cover;
       }
 
+      .college {
+        font-size: 30px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+      }
+
       .text {
         font-size: 50px;
         font-weight: bold;
         text-decoration: underline;
-
       }
 
       .container {
@@ -29,29 +34,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 25px;
+        margin: 15px;
       }
 
       .main-panel {
         flex: 1;
-      }
-
-      #searchBar {
-        width: 70%;
-        padding: 10px;
-        border: solid rgb(78, 22, 22);
-        border-radius: 10px;
-        border-width: 3px;
-        font-size: 16px;
-        margin-bottom: 30px;
-        color: black;
-        transition: border-color 0.1s;
-        justify-content: center;
-        align-items: center;
-      }
-
-      #searchBar:focus {
-        border-color: rgb(129, 81, 75);
       }
 
       .class {
@@ -188,7 +175,6 @@
       }
 
       .header{
-     
         height: 130px;
         display: flex;
         flex-direction: row;
@@ -198,7 +184,6 @@
         top: 0;
         left: 0;
         z-index: 100;
-     
       }
 
       .left-section {
@@ -209,17 +194,18 @@
 
       .vjti-logo {
         height: 125px;
-  width: auto;
-  margin-left: 35px;
-  margin-right: 5px;
-  margin-bottom: 15px;
-  margin-top: 20px;
+        width: auto;
+        margin-left: 26px;
+        margin-right: 5px;
+        margin-bottom: 15px;
+        margin-top: 20px;
         
       }
     </style>
   </head>
 
   <body>
+    <div class="college">Veermata Jijabai Technological Institute</div>
     <div class="text">CLASSROOM AVAILABILITY</div>
     <script type="module"> 
     import { startDay} from "./isolate.js";      
@@ -236,8 +222,7 @@
       </div>
 
       <div class="main-panel">
-        <input type="text" id="searchBar" placeholder="Search" />
-        <div class="class" id="classroom-container">
+          <div class="class" id="classroom-container">
           <!-- Classroom buttons will be generated here -->
         </div>
       </div>
