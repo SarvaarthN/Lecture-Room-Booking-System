@@ -7,60 +7,88 @@
 
   <title>Teacher Homepage</title>
   <style>
+   * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-  margin: 12px;
-  font-family:arial;
-  background-color:white;
-}
-.user-icon {
-  font-size: 50px;         
-  color: white;            
-  margin-bottom: 10px;     
+      font-family: Arial, Helvetica, sans-serif;
+      background: rgb(151, 182, 182);
+      color:black;
+      padding: 10px;
+    }
+    .header {
+  background: rgb(31, 102, 132);
+  color:white;
+  text-align:center;
+  padding: 50px;
+  border-radius: 15px;
 }
 
 .header-content {
   display: flex;
   align-items: center;
-  gap: 20px; 
-}
- 
-.header {
-  background-color: #4c7aae;
-  color: white;
-  padding:40px;
-  text-align:left;
+  gap: 70px;
 }
 
-.main-section {
-  background-color: white;
-  padding: 40px;
-  
- 
+.header-content i {
+  font-size: 50px;
 }
 
-
-.text {
-  color: green;
-  font-weight: bold;
-  text-decoration: none;
-  font-size: 25px;
-  margin-top: 70px;
+.header-content h1 {
+  font-size: 40px;
+  text-align:center;
+  margin: 0; 
 }
+      .container {
+      width: 900px;
+      margin: 40px auto;
+      padding: 40px;
+      background: rgb(167, 190, 194);
+      border-radius: 20px;
+      box-shadow: 10px 8px 32px rgb(71, 70, 70,0.4);
+    }
 
-.button {
-  background-color: #4c7aae;
-  color: white;
-  border-width: 2px;
-  border-color:black;
-  padding: 15px;
-  font-size: 20px;
-  border-radius: 20px;
-  cursor: pointer;
-}
+    h2 {
+      font-size: 28px;
+      color: rgb(21, 85, 112);
+      margin-bottom: 30px;
+      
+    }
 
-.button:hover {
-  background-color: #7bb1ed;
-}
+    .info p{
+      font-size: 20px;
+      margin-top:10px;
+      margin-bottom:20px;
+      color: black;
+    }
+
+
+    .text {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight:bold ;
+      color: #20523b;
+    }
+
+    .button {
+      margin-top: 20px;
+      background:rgb(173, 30, 30);
+      color: white;
+      padding: 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .button:hover {
+      opacity: 0.85;
+      transform:scale(1.05);
+    }
 
   </style>
 
@@ -68,25 +96,26 @@
 <body>
   <div class="header">
     <div class="header-content">
-    <i class="fas fa-user-circle user-icon"></i>
+    <i class="fas fa-user-circle"></i>
 
-    <h1>WELCOME MS. <span id="teacher-name"></span></h1>
+    <h1>Welcome, Ms. <span id="teacher-name"></span></h1>
   </div>
   </div>
 
-  <div class="main-section">
+   <div class="container">
     <h2>Teacher details</h2>
+     <div class="info">
     <p><b>Designation :</b> <span id="teacher-designation"></span></p>
     <p><b>Qualification :</b> <span id="teacher-qualification"></span></p>
     <p><b>Specialization :</b> <span id="teacher-specialization"></span></p>
-    <p><b>Email:</b> <span id="teacher-email"></span></p>
+    <p><b>Email:</b> <span id="teacher-email"></span></p><br><br>
+      </div>
 
 
-    <div class="buttons">
-      <div class="text">CHECK CLASSROOM AVAILABILITY  STATUS:</div><br>
+      <div class="text">Check Classroom Availability Status:</div>
       <button class="button" onclick="classInNewTab()">Classroom status</button>
     </div>
-  </div>
+  
 
   <script>
     function classInNewTab() {
