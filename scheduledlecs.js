@@ -1,4 +1,4 @@
-import {readTimetable,changestatus,setCurrentClass} from './rdbms.js';
+import {readTimetable,changestatus,setCurrentClass,readstat} from './rdbms.js';
 
 export function updated(room){
     console.log(readtimetable(room));
@@ -35,7 +35,7 @@ export async function doSchedule(room) {
   
     const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     const todayName = dayNames[day];
-    const timeslots = Object.keys(timetable[todayName] || {}); // Correct way
+    const timeslots = Object.keys(timetable[todayName] || {}); 
 
     let index = 0;
   
@@ -54,13 +54,22 @@ export async function doSchedule(room) {
             changestatus(room, 1); // Vacant
             console.log("Made room Vacant")
         } else {
-            changestatus(room, 3); // Occupied
+            changestatus(room, 3); // Lecture is Scheduled
+            setTimeout(async () => {
+                const currentStatus = await readstat(room);
+                //const stillClass = await getCurrentClass(room);
+                if (currentStatus !== "occupied") {
+                    changestatus(room, 1); // Set to VACANT
+                    setCurrentClass(room, "VACANT");
+                    console.log(`Room wasn't occupied after 10 mins. Marked as VACANT.`);
+                }
+            }, 8000); // actaully should be 10 mins
             
         }
         setCurrentClass(room,className)
   
         index++;
-        setTimeout(scheduleNext, 8000); // 8 seconds between each slot (for testing, later make it according to timeslot)
+        setTimeout(scheduleNext, 20000); // 8 seconds between each slot (for testing, later make it according to timeslot)
     }
   
     scheduleNext(); // Start scheduling

@@ -235,7 +235,7 @@
     </header>
 
     <script type="module">
-      import { changestatus, readstat, getCurrentClass } from './rdbms.js';
+      import { changestatus, readstat, getCurrentClass,setCurrentClass } from './rdbms.js';
       import { updated, dayOver} from "./scheduledlecs.js";
       import { startDay} from "./isolate.js";
       
@@ -342,12 +342,13 @@
       });
 
       // Status change buttons
-      document.getElementById('changeToVacant').addEventListener('click', () => {
+      document.getElementById('changeToVacant').addEventListener('click', async() => {
         if (currentHoveredButton) {
           changestatus(currentHoveredButton.id, 1); // Change status to 1 (vacant)
+          await setCurrentClass(currentHoveredButton.id,"VACANT")
           
           // Change the color immediately after status update
-          currentHoveredButton.style.backgroundColor = 'green';
+          //currentHoveredButton.style.backgroundColor = 'green';
           
           // Hide the popup with a smooth fade
           statusChangePopup.style.opacity = 0;
@@ -357,12 +358,19 @@
         }
       });
 
-      document.getElementById('changeToOccupied').addEventListener('click', () => {
+      document.getElementById('changeToOccupied').addEventListener('click', async () => {
         if (currentHoveredButton) {
-          changestatus(currentHoveredButton.id, 'occupied');
+          console.log(await readstat(currentHoveredButton.id));
+
+          if(await readstat(currentHoveredButton.id)=="vacant"){
+             await setCurrentClass(currentHoveredButton.id,"OCCUPIED")
+            console.log("Hello World")
+          }
+          changestatus(currentHoveredButton.id, 2);
+          //else if(readstat(currentHoveredButton.id)==3){setCurrentClass(currentHoveredButton.id,)}
           
           // Change the color immediately after status update
-          currentHoveredButton.style.backgroundColor = 'red';
+          //currentHoveredButton.style.backgroundColor = 'red'; This function was not needed as we are changing the colour of button in updateButtonColor() Function. If you happen to read this then remove this line, I have kept it only for your understanding ;)
           
           // Hide the popup with a smooth fade
           statusChangePopup.style.opacity = 0;

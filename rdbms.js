@@ -36,7 +36,7 @@
       status: newstat
     });
   
-    console.log("Status updated without overwriting!");
+    //console.log("Status updated without overwriting!");
   }
   
   export async function readstat(room) {
@@ -169,7 +169,7 @@ export async function setCurrentClass(room, name){
     currentClass: name
   });
 
-  console.log("Status updated without overwriting!");
+  //console.log("Status updated without overwriting!");
 }
 
 export async function getCurrentClass(room){
