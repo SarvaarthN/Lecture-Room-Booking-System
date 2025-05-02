@@ -3,6 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <title>Add Timetable</title>
+  <style>
+    body {
+      background-image: url(https://theroaminggastrognome.com/wp-content/uploads/2012/12/snow-very-light-background.jpg);
+      background-size: cover;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 20px;
+      display: grid;
+      justify-content: center;
+      text-align: center;
+    }
+
+    table {
+      margin: 0 auto; 
+      border-collapse: collapse;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    td, th {
+      width: 200px; 
+      height: 40px;    
+      border: 2px solid black;
+      padding: 10px;
+      text-align: center;
+    }
+
+    tr:nth-child(1) {
+      background-color: rgb(171, 0, 88);
+      color: white;
+    }
+
+    td:nth-child(1) {
+      background-color: rgb(171, 0, 88);
+      color: white;
+      font-weight: bold; 
+
+    }
+
+  </style>
 </head>
 <body>
   <h1>Adding Timetable</h1>
@@ -47,22 +85,47 @@
         const dayOrder = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 
         for (let day of dayOrder) {
-          if (!timetableData[day]) continue; // Skip if no data for that day
+        if (!timetableData[day]) continue;
 
-          const row = document.createElement('tr');
+        const row = document.createElement('tr');
 
-          const dayCell = document.createElement('td');
-          dayCell.innerText = day.charAt(0).toUpperCase() + day.slice(1);
-          row.appendChild(dayCell);
+        const dayCell = document.createElement('td');
+        dayCell.innerText = day.charAt(0).toUpperCase() + day.slice(1);
+        row.appendChild(dayCell);
 
-          for (let time of times) {
-            const cell = document.createElement('td');
-            cell.innerText = timetableData[day][time] || "VACANT";
-            row.appendChild(cell);
+        for (let time of times) {
+          const cell = document.createElement('td');
+          const content = timetableData[day][time] || "VACANT";
+          cell.innerText = content;
+
+          if (content.toUpperCase().includes("VACANT")) {
+            cell.style.backgroundColor = "#0ce00f";
+            cell.style.fontStyle = "italic";
+            cell.style.textDecoration = "underline";
+          } else if (content.toUpperCase().includes("EXTC")) {
+            cell.style.backgroundColor = "#fca3d7";
+          } else if (content.toUpperCase().includes("MECH")) {
+            cell.style.backgroundColor = "#7fefe6";
+          } else if (content.toUpperCase().includes("COMP")) {
+            cell.style.backgroundColor = "#CBAACB";
+          } else if (content.toUpperCase().includes("EE")) {
+            cell.style.backgroundColor = "#FFFACD";
+          } else if (content.toUpperCase().includes("EC")) {
+            cell.style.backgroundColor = "#FFD8B1";
+          } else if (content.toUpperCase().includes("IT")) {
+            cell.style.backgroundColor = "#ef95f9";
+          } else if (content.toUpperCase().includes("PROD")) {
+            cell.style.backgroundColor = "#B2DFDB";
+          } else if (content.toUpperCase().includes("TEXTILE")) {
+            cell.style.backgroundColor = "#FFE5B4";
+          } else if (content.toUpperCase().includes("CIVIL")) {
+            cell.style.backgroundColor = "#AAF0D1";
           }
-          table.appendChild(row);
-        }
 
+          row.appendChild(cell);
+        }
+        table.appendChild(row);
+      }
         timetableContainer.appendChild(table);
       }
 
