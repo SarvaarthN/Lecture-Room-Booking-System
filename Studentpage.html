@@ -1,84 +1,123 @@
 <!DOCTYPE html>
-<html>
-  <title>Student Page</title>
-  <head>
-    <STYLE>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>\Student Homepage</title>
+  <style>
+   * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background-image: url(https://preview.redd.it/kl6q56cos5t91.jpg?auto=webp&s=79bfff625d3fad6fd9f8373645f3ba76af4af736);
-      background-size: cover;
-     
-      background-color: rgba(255,255,255,0.5);
-        background-blend-mode: lighten;
-    }
-   .Welcome{
-    font-family:'Pacifico', cursive;
-     font-size: 30px;
-     margin-left: 530px;
-     font-weight: bold;
-     height: 50px;
-     width:505px;
-     margin-bottom: 0px;
-     color:black;}
-
-    .Details{
       font-family: Arial, Helvetica, sans-serif;
-     font-size: 30px;
-     margin-left: 530px;
-    background-color: crimson;
-     font-weight: bold;
-     height: 50px;
-     width:505px;
-     margin-bottom: 0px;
-     color:white;
-      border-radius: 10px;
-     
+      background: 			#E5ECF6;
+      color:black;
+      padding: 10px;
     }
-    .Click{
-      font-size:25px;
-      width:400px;
-      background-color: greenyellow;
-      border-radius: 10px;
+    .header {
+  background: 	#1E3A8A;
+  color:#FFFFFF;
+  text-align:center;
+  padding: 50px;
+  border-radius: 15px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 70px;
+}
+
+.header-content i {
+  font-size: 50px;
+}
+
+.header-content h1 {
+  font-size: 40px;
+  text-align:center;
+  margin: 0; 
+}
+      .container {
+      width: 900px;
+      margin: 40px auto;
+      padding: 40px;
+      background: 		#D1FAE5;
+      border-radius: 20px;
+      box-shadow: 12px 10px 36px rgba(0, 0, 0, 0.2);
     }
-    .Checking{
-margin-top:0px;
-padding:10px;
-margin-left: 10px;
-font-size: 30px;
-font-family: Arial, Helvetica, sans-serif;
-background-color: purple;
-color:yellow;
-border-radius: 10px;
-margin-bottom: 5px;
-cursor: pointer;
-margin-bottom: 90px;
-transition-duration: 1s;
+
+    h2 {
+      font-size: 28px;
+      color:#1E3A8A;
+      margin-bottom: 30px;
+      
     }
-    .Checking:hover{
-    color:purple;
-    background-color: yellow;
-  }
+
+    .info p{
+      font-size: 20px;
+      margin-top:10px;
+      margin-bottom:20px;
+      color:#1F2937;
+    }
 
 
-   
-    </STYLE>
-  </head>
-  <body>
-    <p class="Click">Click below to check your schedule for today!</p>
-    <button class="Checking">Classroom availability
-    </button>
- <p class="Welcome" style="text-align: center;">Welcome dear Student</P>
-  <P class="Details">Name:</P>
-  <P class="Details">Year of Engineering:
-  </P>
-  <P class="Details">Branch: </P>
-  <P class="Details">Registration number: </P>
-  <p class="Details">Date Of Birth: </p>
- 
+    .text {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight:bold ;
+      color:	#10B981;
+    }
+
+    .button {
+      margin-top: 20px;
+      background:#10B981;
+      color: white;
+      padding: 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .button:hover {
+      opacity: 0.85;
+      transform:scale(1.05);
+    }
+
+  </style>
+
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+    <i class="fas fa-user-circle"></i>
+
+    <h1>Welcome dear Student</h1>
+  </div>
+  </div>
+
+   <div class="container">
+    <h2>Student details</h2>
+     <div class="info">
+    <p><b>Name :</b> <p>
+    <p><b>Year of Engineering :</b></p>
+    <p><b>Branch :</b> <span id="teacher-specialization"></span></p>
+    <p><b>Registration No :</b></p>
+    <p><b>Date of Birth :</b> </p><br><br>
+      </div>
+
+
+      <div class="text">Check Classroom Availability Status:</div>
+      <button class="button">Classroom Status</button>
+    </div>
   
 
-
-    <script>
-      
-    </script>
-  </body>
+  <script>
+   
+  </script>
+  
+</body>
 </html>
