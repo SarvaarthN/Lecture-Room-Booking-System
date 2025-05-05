@@ -218,7 +218,7 @@
         <button class="button-side" data-id-prefix="BL">B </button>
         <button class="button-side" data-id-prefix="CL">C </button>
         <button class="button-side" data-id-prefix="DL">D </button>
-        <button onclick="startDay()">Start Database</button>
+        <button id="Database" onclick="startDay()" style="display: none;">Start Database</button>
       </div>
 
       <div class="main-panel">
@@ -243,8 +243,12 @@
 
       if (role === "teacher") {
       const changeBtn = document.getElementById('changeStatusBtn');
+      const database = document.getElementById('Database');
       if (changeBtn) {
         changeBtn.style.display = 'block';
+      }
+      if (database) {
+        database.style.display = 'block';
       }
      }
 
