@@ -127,7 +127,10 @@ loginForm.addEventListener("submit", async function (e) {
 
       if (data.password === password && data.role === role) {
         loggedIn = true;
-        //sessionStorage.setItem('role', role); won't work as new tab is getting opened. Need to use local storage
+        
+        localStorage.setItem("userDocId", doc.id);
+        localStorage.setItem("userRole", role);
+
         if (role === "teacher") {
           window.location.href = "Teacherhomepage.html";
         } else {
