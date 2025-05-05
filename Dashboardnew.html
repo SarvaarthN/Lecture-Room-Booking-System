@@ -239,9 +239,21 @@
       import { updated, dayOver} from "./scheduledlecs.js";
       import { startDay} from "./isolate.js";
       
+      const role=localStorage.getItem("userRole");
+
+      if (role === "teacher") {
+      const changeBtn = document.getElementById('changeStatusBtn');
+      if (changeBtn) {
+        changeBtn.style.display = 'block';
+      }
+     }
 
       document.getElementById('showTimetableBtn').addEventListener('click', () => {
-        window.location.href = 'timetablemaker.html';
+        if (currentHoveredButton) {
+          const roomId = currentHoveredButton.id;
+          window.open(`timetablemaker.html?room=${roomId}`, '_blank');
+
+        }
       });
 
       const classroomContainer = document.getElementById('classroom-container');
@@ -386,7 +398,7 @@
 
     <!-- Hover Popup -->
     <div id="hover-popup" class="hover-popup">
-      <button id="changeStatusBtn">Change Classroom Availability</button>
+      <button id="changeStatusBtn" style="display: none;">Change Classroom Availability</button>
       <button id="showTimetableBtn">Show Timetable</button>
     </div>
 
