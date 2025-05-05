@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-
-
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <title>\Student Homepage</title>
+  <title>Student Homepage</title>
   <style>
    * {
       margin: 0;
@@ -95,29 +97,64 @@
     <div class="header-content">
     <i class="fas fa-user-circle"></i>
 
-    <h1>Welcome dear Student</h1>
+    <h1>Welcome, <span id="student-name"></span></h1>
   </div>
   </div>
 
    <div class="container">
     <h2>Student details</h2>
      <div class="info">
-    <p><b>Name :</b> <p>
-    <p><b>Year of Engineering :</b></p>
-    <p><b>Branch :</b> <span id="teacher-specialization"></span></p>
-    <p><b>Registration No :</b></p>
-    <p><b>Date of Birth :</b> </p><br><br>
+    <p><b>Class :</b> <span id="student-class"></span></p>
+    <p><b>Registration Id :</b> <span id="student-regId"></span> </p>
+    <p><b>Date of Birth :</b> <span id="student-dob"></span> </p>
+    <p><b>Gender :</b> <span id="student-gender"></span></p><br><br>
       </div>
 
 
       <div class="text">Check Classroom Availability Status:</div>
-      <button class="button">Classroom Status</button>
+      <button class="button" onclick="classInNewTab()">Classroom status</button>
     </div>
   
+    <script>
+      function classInNewTab() {
+        window.open('Dashboardnew.html','blank');
+      }
+    </script>
+    <script type="module">
+      import { db, doc, getDoc } from './firestore.js';
+    
+      async function loadStudentData() {
+        
+        const docId = localStorage.getItem("userDocId");
+        const role = localStorage.getItem("userRole");
+      
+        if (!docId || role !== "student") {
+        alert("Unauthorized access or missing user info.");
+        window.location.href = "login.html";
+      }
 
-  <script>
-   
-  </script>
+        try {
+          const StudentRef = doc(db, 'users', docId);
+          const snap = await getDoc(StudentRef);
+    
+          if (snap.exists()) {
+            const data = snap.data();
+            document.getElementById('student-name').textContent = data.Name || '';
+            document.getElementById('student-class').textContent = data.Class || '';
+            document.getElementById('student-regId').textContent = data.Registration_Id || '';
+            document.getElementById('student-dob').textContent = data.D_O_B || '';
+            document.getElementById('student-gender').textContent = data.Gender || '';
+          } else {
+            console.log("Document does not exist.");
+          }
+        } catch (error) {
+          console.error("Error fetching student data:", error);
+        }
+      }
+    
+  
+      loadStudentData();
+    </script>
   
 </body>
 </html>
