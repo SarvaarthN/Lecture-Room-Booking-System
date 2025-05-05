@@ -98,7 +98,7 @@
     <div class="header-content">
     <i class="fas fa-user-circle"></i>
 
-    <h1>Welcome, Ms. <span id="teacher-name"></span></h1>
+    <h1>Welcome, <span id="teacher-name"></span></h1>
   </div>
   </div>
 
@@ -126,8 +126,17 @@
     import { db, doc, getDoc } from './firestore.js';
   
     async function loadTeacherData() {
+
+      const docId = localStorage.getItem("userDocId");
+      const role = localStorage.getItem("userRole");
+      
+      if (!docId || role !== "teacher") {
+      alert("Unauthorized access or missing user info.");
+      window.location.href = "login.html";
+    }
+
       try {
-        const teacherRef = doc(db, 'users', 't5fYH58M2grMM2jQiWbk');
+        const teacherRef = doc(db, 'users', docId);
         const snap = await getDoc(teacherRef);
   
         if (snap.exists()) {
