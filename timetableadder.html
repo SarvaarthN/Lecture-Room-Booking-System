@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Timetable</title>
+</head>
+<body>
+  <h1>Adding Timetable</h1>
+
+  <script type="module">
+    import { addtimetable } from './rdbms.js';
+    const tt = {timetable: {
+  monday: {
+    "9:30-10:25": "IT TY",
+    "10:30-11:25": "VACANT",
+    "11:30-12:25": "VACANT"
+  },
+  tuesday: {
+    "9:30-10:25": "COMP FY",
+    "10:30-11:25": "MECH SY",
+    "11:30-12:25": "VACANT"
+  },
+  wednesday: {
+    "9:30-10:25": "VACANT",
+    "10:30-11:25": "EE TY",
+    "11:30-12:25": "EE SY"
+  },
+  thursday: {
+    "9:30-10:25": "VACANT",
+    "10:30-11:25": "EE TY",
+    "11:30-12:25": "VACANT"
+  },
+  friday: {
+    "9:30-10:25": "VACANT",
+    "10:30-11:25": "PROD FY",
+    "11:30-12:25": "VACANT"
+  }
+}};
+    // Call your function here
+    //addtimetable("AL201",tt); //use it when we need to add timetable
+  </script>
+</body>
+</html>

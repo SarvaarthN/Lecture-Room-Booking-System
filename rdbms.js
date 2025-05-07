@@ -74,38 +74,8 @@
 
       
   }
-  export function addtimetable(room) {
-    update(ref(db2, room), {
-      timetable: {
-        monday: {
-          "9:30-10:25": "EXTC SY",
-          "10:30-11:25": "VACANT",
-          "11:30-12:25": "EE TY"
-        },
-        tuesday: {
-          "9:30-10:25": "VACANT",
-          "10:30-11:25": "COMP SY",
-          "11:30-12:25": "EC TY"
-        },
-        wednesday: {
-          "9:30-10:25": "IT FY",
-          "10:30-11:25": "VACANT",
-          "11:30-12:25": "MECH TY"
-        },
-        thursday: {
-          "9:30-10:25": "PROD FY",
-          "10:30-11:25": "VACANT",
-          "11:30-12:25": "EXTC TY"
-        },
-        friday: {
-          "9:30-10:25": "COMP FY",
-          "10:30-11:25": "VACANT",
-          "11:30-12:25": "EE SY"
-        }
-      }
-      
-      
-    });
+  export function addtimetable(room,toBeAdded) {
+    update(ref(db2, room), toBeAdded);
   
     console.log("Status updated");
   }
