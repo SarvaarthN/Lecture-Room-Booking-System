@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Teacher Homepage</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Your CSS -->
+  <link rel="stylesheet" href="../CSS/Teacherhomepage.css">
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-content">
+      <i class="fas fa-user-circle"></i>
+      <h1>Welcome, <span id="teacher-name"></span></h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Teacher details</h2>
+    <div class="info">
+      <p><b>Designation :</b> <span id="teacher-designation"></span></p>
+      <p><b>Qualification :</b> <span id="teacher-qualification"></span></p>
+      <p><b>Specialization :</b> <span id="teacher-specialization"></span></p>
+      <p><b>Email:</b> <span id="teacher-email"></span></p>
+    </div>
+
+    <div class="text">Check Classroom Availability Status:</div>
+    <button class="button" onclick="classInNewTab()">Classroom status</button>
+  </div>
+
+  <!-- Your JS -->
+  <script type="module" src="../JavaScript/Teacherhomepage.js"></script>
+</body>
+</html>
