@@ -5,7 +5,7 @@ A web-based application that allows students and teachers to book and manage cla
 ## Features
 
 - Role-based login for students and teachers  
-- Students can view and book available classes  
+- Students can view  available classes  
 - Teachers can create and manage class schedules  
 - Personalized dashboards for each user  
 - Responsive user interface styled with CSS  
