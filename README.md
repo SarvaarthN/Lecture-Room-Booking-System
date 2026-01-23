@@ -19,11 +19,11 @@ A web-based application that allows students and teachers to book and manage cla
 
 ## Project Preview
 
-![Login page](images/loginpage.png)  
-![Student's home page](images/studenthomepage.png)  
-![Teacher's home page](images/teacherhomepage.png)  
-![Dashboard](images/dashboard.png)  
-![Timetable](images/timetable.png)  
+![Login page](Project-preview/loginpage.png)  
+![Student's home page](Project-preview/studenthomepage.png)  
+![Teacher's home page](Project-preview/teacherhomepage.png)  
+![Dashboard](Project-preview/dashboard.png)  
+![Timetable](Project-preview/timetable.png)  
 
 ## Contributors
 
