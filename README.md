@@ -30,6 +30,6 @@ A web-based application that allows students and teachers to book and manage cla
 - Tanisha Nevrekar ([GitHub](https://github.com/Nutella006))  
 - Muskaan Karwa ([GitHub](https://github.com/muskaankarwa))  
 - Swamini Jadhav ([GitHub](https://github.com/swamini-jadhav))  
-- Sarvaarth Naraang ([GitHub](https://github.com/SarvaarthN))  
+- Sarvaarth Narang ([GitHub](https://github.com/SarvaarthN))  
 - Ananya Rane ([GitHub](https://github.com/AnanyaRane27))
 
