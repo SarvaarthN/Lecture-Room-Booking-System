@@ -1,6 +1,6 @@
-# Class Booking System
+# Lecture Room Booking System
 
-A web-based application that allows students and teachers to book and manage classes through responsive login and personalized dashboards.
+Lecture Room Booking System is designed to simplify and streamline the process of scheduling and managing classrooms within an educational institution. It provides students and teachers with a centralized, web-based platform to book, view, and manage class schedules efficiently. Through secure login and personalized dashboards, users can access real-time availability, avoid scheduling conflicts, and track their reservations with ease. The system enhances transparency, reduces manual coordination, and improves overall resource utilization. By digitizing classroom management, it ensures a more organized, accessible, and time-efficient academic environment.
 
 ## Features
 
